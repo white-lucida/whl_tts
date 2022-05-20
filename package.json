@@ -1,0 +1,25 @@
+{
+  "name": "whl_tts",
+  "version": "1.0.0",
+  "description": "white lucida tts bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc index.ts"
+  },
+  "author": "white-lucida",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/voice": "^0.7.5",
+    "@types/ffi-napi": "^4.0.4",
+    "@types/fluent-ffmpeg": "^2.1.20",
+    "@types/kuromoji": "^0.1.1",
+    "discord.js": "^13.3.1",
+    "ffi-napi": "^4.0.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "kuromoji": "^0.1.2",
+    "libsodium-wrappers": "^0.7.9",
+    "path": "^0.12.7",
+    "typescript": "^4.5.2"
+  }
+}
