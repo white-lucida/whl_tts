@@ -1,10 +1,4 @@
-FROM ubuntu AS package_install
-WORKDIR /usr/src/app
-COPY --from=jrottenberg/ffmpeg:4.1-ubuntu /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-
-RUN apt-get update && apt-get install -y wget && apt-get install -y unzip
-RUN wget https://www.a-quest.com/archive/package/aqtk1-lnx-eva_171.zip
-RUN unzip aqtk1-lnx-eva_171.zip
+FROM jrottenberg/ffmpeg:4.1-ubuntu AS package_install
 
 FROM node:17 AS npm_install
 WORKDIR /usr/src/app
@@ -13,36 +7,13 @@ RUN npm install
 
 FROM node:17
 
-
 # アプリケーションディレクトリを作成する
 WORKDIR /usr/src/app
 
-#COPY --from=jrottenberg/ffmpeg:4.1-ubuntu /usr/local/bin/ffmpeg /usr/local/bin/ffmpeg
-
-# アプリケーションの依存関係をインストールする
-# ワイルドカードを使用して、package.json と package-lock.json の両方が確実にコピーされるようにします。
-# 可能であれば (npm@5+)
-
-#RUN npm install
-# 本番用にコードを作成している場合
-# RUN npm install --only=production
-
-#RUN sudo apt update
-#RUN sudo apt install ffmpeg
-
-
-#RUN apt update
-#RUN apt -y upgrade
-#RUN apt install -y ffmpeg
-
-#RUN npm run tsc
-
-#RUN wget https://www.a-quest.com/archive/package/aqtk1-lnx-eva_171.zip
-#RUN unzip aqtk1-lnx-eva_171.zip
-
 # アプリケーションのソースをバンドルする
-COPY --from=package_install /usr/src/app/ /usr/src/app/
-COPY --from=npm_install /usr/src/app /usr/src/app/
+COPY --from=package_install /usr/local/ /usr/local/
+COPY --from=npm_install /usr/src/app/ /usr/src/app/
+ENV LD_LIBRARY_PATH=/usr/local/lib
 COPY . .
 RUN npm run tsc
 
