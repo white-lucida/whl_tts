@@ -1,0 +1,22 @@
+---
+to: docker-compose.override.yml
+---
+
+services:
+  <%_ clients.forEach(function(client, i){ -%>
+  client-<%= i %>:
+    image:
+      white-lucida/tts-client
+    environment:
+      - DISCORD_TOKEN: <%= client.token %>
+      - TERMINAL_CHANNEL_ID: <%= TERMINAL_CHANNEL_ID %>
+      - CONTROLLER_USER_ID: <%= CONTROLLER_USER_ID %>
+  <% }); -%>
+  <% if (controller.token) { %>
+  controller:
+    image:
+      white-lucida/tts-controller
+    environment:
+      - DISCORD_TOKEN: <%= controller.token %>
+      - TERMINAL_CHANNEL_ID: <%= TERMINAL_CHANNEL_ID %>
+  <% } %>
